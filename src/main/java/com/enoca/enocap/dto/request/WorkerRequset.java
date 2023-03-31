@@ -34,6 +34,5 @@ public class WorkerRequset {
     private String workerAddress;
 
     @Column(length=5,nullable = false)
-    @NotBlank(message = "Please Provide Worker Address")
     private Long workerSalary;
 }

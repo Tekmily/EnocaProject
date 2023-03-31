@@ -1,7 +1,5 @@
 package com.enoca.enocap.dto;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WokerDTO {
+public class WorkerDTO {
 
     private Long id;
     private String workerFirstName;
