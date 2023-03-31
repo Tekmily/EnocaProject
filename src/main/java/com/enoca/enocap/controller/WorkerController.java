@@ -1,13 +1,16 @@
 package com.enoca.enocap.controller;
 
+import com.enoca.enocap.domain.Company;
 import com.enoca.enocap.domain.Worker;
 import com.enoca.enocap.dto.WorkerDTO;
-import com.enoca.enocap.dto.request.WorkerRequset;
+import com.enoca.enocap.dto.request.WorkerRequest;
 import com.enoca.enocap.dto.response.EPResponse;
 import com.enoca.enocap.dto.response.ResponseMessage;
 import com.enoca.enocap.mapper.WorkerMapper;
+import com.enoca.enocap.service.CompanyService;
 import com.enoca.enocap.service.WorkerService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,21 +18,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/worker")
 public class WorkerController {
     private final WorkerService workerService;
+    private final CompanyService companyService;
     private final WorkerMapper workerMapper;
 
-    public WorkerController(WorkerService workerService,
-                            WorkerMapper workerMapper) {
-        this.workerService = workerService;
-        this.workerMapper = workerMapper;
-    }
+
     @PostMapping("/create")
-    public ResponseEntity<EPResponse> cereateWoker(
-            @Valid @RequestBody WorkerRequset workerRequset){
-        Worker worker = workerMapper.wokerRequsestToWorker(workerRequset);
+    public ResponseEntity<EPResponse> createWorker(
+            @Valid @RequestBody WorkerRequest workerRequest){
+        Worker worker = workerMapper.wokerRequsestToWorker(workerRequest);
+        Company company=companyService.getCompanyById(workerRequest.getCompanyId());
+        worker.setCompany(company);
         workerService.save(worker);
+        company.getWorkersList().add(worker);
+        companyService.save(company);
         EPResponse epResponse=new EPResponse
                 ("Worker Successfully Created",true);
         return new ResponseEntity<>(epResponse, HttpStatus.CREATED);
@@ -54,11 +59,12 @@ public class WorkerController {
    }
    @PutMapping("/{id}")
     public ResponseEntity<EPResponse> updateByIdWorker(@PathVariable Long id,
-                                                       @RequestBody WorkerRequset workerRequset){
-        Worker worker=workerMapper.wokerRequsestToWorker(workerRequset);
+                                                       @RequestBody WorkerRequest workerRequest){
+        Worker worker=workerMapper.wokerRequsestToWorker(workerRequest);
         workerService.updateByIdWorker(id,worker);
         EPResponse epResponse=new EPResponse(ResponseMessage.WORKER_UPDATE_RESPONSE_MESSAGE,true);
         return ResponseEntity.ok(epResponse);
    }
+
 
 }
