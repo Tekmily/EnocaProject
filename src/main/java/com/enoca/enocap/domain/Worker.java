@@ -22,7 +22,7 @@ public class Worker {
 
     @Column(length=50,nullable = false)
     @Size(min = 3,max = 50,message = "Please Enter Correct WorkerFirstName")
-    private String wokerLastName;
+    private String workerLastName;
 
     @Column(length=50,nullable = false)
     @Size(min = 2,max = 50,message = "Please Enter Correct WorkerFirstName")
@@ -34,4 +34,17 @@ public class Worker {
 
     @Column(length=5,nullable = false)
     private Long workerSalary;
+
+    @ManyToOne
+    @JoinColumn(name="company_id")
+    private Company company;
+
+    public Company getCompany() {
+
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 }

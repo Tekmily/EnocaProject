@@ -4,19 +4,16 @@ import com.enoca.enocap.domain.Company;
 import com.enoca.enocap.exception.Message.ErrorMessage;
 import com.enoca.enocap.exception.ResourceNotFoundException;
 import com.enoca.enocap.repository.CompanyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CompanyService {
-    private static  CompanyRepository companyRepository;
-    @Autowired
-    public CompanyService(CompanyRepository companyRepository) {
+    private final CompanyRepository companyRepository;
 
-        this.companyRepository = companyRepository;
-    }
     public void save(Company company) {
         companyRepository.save(company);
     }
@@ -24,7 +21,7 @@ public class CompanyService {
     public List<Company> getAll() {
         return companyRepository.findAll();
     }
-    public static Company getCompanyById(Long id) {
+    public  Company getCompanyById(Long id) {
     return companyRepository.findById(id).orElseThrow(
             ()-> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
     }
@@ -41,7 +38,6 @@ public class CompanyService {
         foundCompany.setCompanyName(company.getCompanyName());
         foundCompany.setCompanyType(company.getCompanyType());
         foundCompany.setCompanyAddress(company.getCompanyAddress());
-        foundCompany.setCompanyWorker(company.getCompanyWorker());
         companyRepository.save(foundCompany);
     }
 }

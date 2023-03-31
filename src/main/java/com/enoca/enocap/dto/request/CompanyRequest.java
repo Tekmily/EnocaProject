@@ -1,5 +1,7 @@
-package com.enoca.enocap.dto;
+package com.enoca.enocap.dto.request;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompanyDTO {
-
-    private Long id;
+public class CompanyRequest {
     private String companyName;
     private String companyType;
     private String  companyAddress;

@@ -9,6 +9,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -36,5 +41,6 @@ public class Company {
     @Column(length =200,nullable = false)
     private String  companyAddress;
 
-    private Integer companyWorker;
+    @OneToMany(mappedBy = "company")
+    private List<Worker> workersList = new ArrayList<>();
 }
