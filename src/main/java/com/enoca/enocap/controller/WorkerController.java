@@ -6,7 +6,10 @@ import com.enoca.enocap.dto.WorkerDTO;
 import com.enoca.enocap.dto.request.WorkerRequest;
 import com.enoca.enocap.dto.response.EPResponse;
 import com.enoca.enocap.dto.response.ResponseMessage;
+import com.enoca.enocap.exception.Message.ErrorMessage;
+import com.enoca.enocap.exception.ResourceNotFoundException;
 import com.enoca.enocap.mapper.WorkerMapper;
+import com.enoca.enocap.repository.WorkerRepository;
 import com.enoca.enocap.service.CompanyService;
 import com.enoca.enocap.service.WorkerService;
 import jakarta.validation.Valid;
@@ -33,6 +36,7 @@ public class WorkerController {
     private final WorkerService workerService;
     private final CompanyService companyService;
     private final WorkerMapper workerMapper;
+    private final WorkerRepository workerRepository;
 
             /**
              * @PostMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP POST isteklerini işlemek için kullanılır.
@@ -63,12 +67,19 @@ public class WorkerController {
         return ResponseEntity.ok(workerDTOList);//workerDTOList'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar
     }
     //http://localhost:8082/company/3
-   @GetMapping("/{id}")//getByIdWorker method'u istenilen ID deki verileri ekrana yazdırır
-   public ResponseEntity<WorkerDTO> getByIdWorker(@PathVariable("id") Long id){
+            @GetMapping("/{id}")
+            public ResponseEntity<WorkerDTO> getByIdWorker(@PathVariable Long id){
+        Worker worker=workerRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
+        WorkerDTO workerDTO = WorkerDTO.fromWorker(worker);
+        return ResponseEntity.ok().body(workerDTO);
+            }
+/*   @GetMapping("/{id}")//getByIdWorker method'u istenilen ID deki verileri ekrana yazdırır
+   public ResponseEntity<WorkerDTO> getByIdWorker(@PathVariable Long id){
         Worker worker=workerService.getByIdWorker(id);//Service'ten ID ile istenilen verileri Worker object'e aktarır.
         WorkerDTO workerDTO=workerMapper.wokerToWorkerDTO(worker);//Worker object'teki verileri workerDTO object'e aktarır
         return ResponseEntity.ok(workerDTO);//workerDTO'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar.
-   }
+   }*/
    //http://localhost:8082/company/4
    @DeleteMapping("/{id}")//@DeleteMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP DELETE isteklerini işlemek için kullanılır.
    //deleteByIdWorker method'u istenilen ID ile silme işlemi yapar.
