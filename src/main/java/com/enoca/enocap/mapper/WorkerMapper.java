@@ -5,6 +5,7 @@ import com.enoca.enocap.dto.WorkerDTO;
 import com.enoca.enocap.dto.request.WorkerRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 //@Mapper: Bu anahtar kelime, MapStruct kütüphanesi tarafından kullanılan bir sınıfın,
