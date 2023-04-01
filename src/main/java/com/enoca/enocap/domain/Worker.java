@@ -52,7 +52,7 @@ public class Worker {
     @NotNull(message = "Please provide Worker Address")
     private String workerAddress;
 
-    @Column(length=5,nullable = false)
+
     private Long workerSalary;
     /**
      * @ManyToOne: Bu anotasyon, bir ilişkiyi işaretler ve birincil sınıfın birçok ikincil sınıfına sahip olduğunu belirtir.

@@ -87,7 +87,6 @@ public class WorkerController {
    @PutMapping("/{id}")//@PutMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP PUT isteklerini işlemek için kullanılır.
    //@PathVariable: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yolundaki değişkenleri bir değişkene atanmak için kullanılır.
    //@RequestBody: Spring MVC'de bir metot seviyesi anotasyonudur ve gelen HTTP isteği gövdesindeki verileri bir nesne olarak almak için kullanılır.
-
    //updateByIdWorker method'u istenilen ID ile update(güncelleme) işlemi yapar.
     public ResponseEntity<EPResponse> updateByIdWorker(@PathVariable Long id,
                                                        @RequestBody WorkerRequest workerRequest){
