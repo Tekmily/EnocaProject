@@ -1,7 +1,7 @@
 package com.enoca.enocap.service;
 
-import com.enoca.enocap.domain.Company;
 import com.enoca.enocap.domain.Worker;
+import com.enoca.enocap.dto.WorkerDTO;
 import com.enoca.enocap.exception.Message.ErrorMessage;
 import com.enoca.enocap.exception.ResourceNotFoundException;
 import com.enoca.enocap.repository.WorkerRepository;
@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @Service anotasyonu, bir sınıfın Spring Framework'teki Service katmanı bileşeni
  * olarak kullanılabileceğini belirtir.
@@ -25,8 +27,11 @@ public class WorkerService {
         workerRepository.save(worker);//Company'yi companyRepository deki jpaRepository kullanılarak kayıt işlemi yaptık
     }
 
-    public List<Worker> getAllWorkers() {//Worker verilerin hepsini çağırma işlemi yaaptık
-        return workerRepository.findAll();
+    public List<WorkerDTO> getAllWorkers() {//Worker verilerin hepsini çağırma işlemi yaaptık
+        List<Worker> workers = workerRepository.findAll();
+        return workers.stream()
+                .map(WorkerDTO::fromWorker)
+                .collect(Collectors.toList());
     }
     public  Worker getByIdWorker(Long id) {//Worker verileri ID'yle çağırma işlemi yaaptık
         return workerRepository.findById(id).orElseThrow(

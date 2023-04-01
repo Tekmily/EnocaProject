@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
         /**
         *@RestController, Spring Framework'te bir sınıf seviyesi anotasyonudur ve Spring MVC'de RESTful web hizmetleri oluşturmak için kullanılır.
@@ -61,25 +62,19 @@ public class WorkerController {
     @GetMapping//@GetMapping, Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP GET isteklerini işlemek için kullanılır.
     //getAllWorkers method'u Veritabanında bulunan tüm bilgileri ekrana listeler
     public ResponseEntity<List<WorkerDTO>> getAllWorkers(){
-        List<Worker> workerList=workerService.getAllWorkers();//Service'ten alına tüm listeyi workerList ekler
-
-        List<WorkerDTO> workerDTOList=workerMapper.workerListToWorkerDTOListMap(workerList);//Worker object'in workerList tesindeki tüm verileri workerDTOList dönüştürür
-        return ResponseEntity.ok(workerDTOList);//workerDTOList'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar
+        List<WorkerDTO> workerList=workerService.getAllWorkers();//Service'ten alına tüm listeyi workerList ekler
+        return new ResponseEntity<>(workerList, HttpStatus.OK);
+        //List<WorkerDTO> workerDTOList=workerMapper.workerListToWorkerDTOListMap(workerList);//Worker object'in workerList tesindeki tüm verileri workerDTOList dönüştürür
+        //return ResponseEntity.ok(workerDTOList);//workerDTOList'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar
     }
     //http://localhost:8082/company/3
-            @GetMapping("/{id}")
-            public ResponseEntity<WorkerDTO> getByIdWorker(@PathVariable Long id){
-        Worker worker=workerRepository.findById(id).orElseThrow(
-                ()->new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE,id)));
-        WorkerDTO workerDTO = WorkerDTO.fromWorker(worker);
-        return ResponseEntity.ok().body(workerDTO);
-            }
-/*   @GetMapping("/{id}")//getByIdWorker method'u istenilen ID deki verileri ekrana yazdırır
+
+   @GetMapping("/{id}")//getByIdWorker method'u istenilen ID deki verileri ekrana yazdırır
    public ResponseEntity<WorkerDTO> getByIdWorker(@PathVariable Long id){
         Worker worker=workerService.getByIdWorker(id);//Service'ten ID ile istenilen verileri Worker object'e aktarır.
-        WorkerDTO workerDTO=workerMapper.wokerToWorkerDTO(worker);//Worker object'teki verileri workerDTO object'e aktarır
-        return ResponseEntity.ok(workerDTO);//workerDTO'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar.
-   }*/
+       WorkerDTO workerDTO = WorkerDTO.fromWorker(worker);//Worker object'teki verileri workerDTO object'e aktarır
+        return ResponseEntity.ok().body(workerDTO);//workerDTO'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar.
+   }
    //http://localhost:8082/company/4
    @DeleteMapping("/{id}")//@DeleteMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP DELETE isteklerini işlemek için kullanılır.
    //deleteByIdWorker method'u istenilen ID ile silme işlemi yapar.
