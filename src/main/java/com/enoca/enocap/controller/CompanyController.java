@@ -37,6 +37,7 @@ public class CompanyController {
      * @PostMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP POST isteklerini işlemek için kullanılır.
      * createCompany methodu ile kullanıcıdan alınan verileri uygun biçinde veritabanında kaydetmek için kullanılır.
      */
+    //http://localhost:8082/worker/create
     @PostMapping("/create")
     public ResponseEntity<EPResponse> createCompany(@Valid @RequestBody CompanyRequest companyRequset){
         Company company=companyMapper.companyRequsetToCompany(companyRequset);//Kullanıcıdan gelen Request'i Company object'te dönüştürmek için kullanılır
@@ -46,6 +47,7 @@ public class CompanyController {
         return new ResponseEntity<>(epResponse, HttpStatus.CREATED);//kaydedildiğine dair epResponse taki bilgileri geri döndürür.
 
     }
+    //http://localhost:8082/worker
     @GetMapping//@GetMapping, Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP GET isteklerini işlemek için kullanılır.
     //getAllCompany method'u Veritabanında bulunan tüm bilgileri ekrana listeler
     public ResponseEntity<List<CompanyDTO>> getAllCompany(){
@@ -53,13 +55,14 @@ public class CompanyController {
         List<CompanyDTO> companyDTOList=companyMapper.companyListToCompanyDTOListMap(companyList);//Company object'in companyList tesindeki tüm verileri CompanyDTolist dönüştürür
         return ResponseEntity.ok(companyDTOList);//companyDTOList'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar
     }
-
+    //http://localhost:8082/worker/5
     @GetMapping("/{id}")//getByIdCompany method'u istenilen ID deki verileri ekrana yazdırır
     public ResponseEntity<CompanyDTO> getByIdCompany(@PathVariable("id")Long id) {
         Company company=companyService.getCompanyById(id);//Service'ten ID ile istenilen verileri Company object'e aktarır.
         CompanyDTO companyDTOList=companyMapper.companyToCompanyDTO(company);//Company object'teki verileri CompanyDTOList object'e aktarır
         return ResponseEntity.ok(companyDTOList);//companyDTOList'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar.
     }
+    //http://localhost:8082/worker/5
     @DeleteMapping("/{id}")//@DeleteMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP DELETE isteklerini işlemek için kullanılır.
     //getDeleteByIdCompany method'u istenilen ID ile silme işlemi yapar.
     public ResponseEntity<EPResponse> getDeleteByIdCompany(@PathVariable Long id) {//@PathVariable: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yolundaki değişkenleri bir değişkene atanmak için kullanılır.
@@ -67,6 +70,7 @@ public class CompanyController {
         EPResponse epResponse=new EPResponse(ResponseMessage.COMPANY_DELETE_RESPONSE_MESSAGE,true);//Veri silme işlemi düzgün gerçekleşmiş ise başarılı bilgisini veriri şayet veritabanında olmayan ID ile işlem yapılıyor ise Exception fırları
         return ResponseEntity.ok(epResponse);//epResponse aldığı veriyi ekrana yazar.
     }
+    //http://localhost:8082/worker/5
     @PutMapping("/{id}")//@PutMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP PUT isteklerini işlemek için kullanılır.
     //@PathVariable: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yolundaki değişkenleri bir değişkene atanmak için kullanılır.
     //@RequestBody: Spring MVC'de bir metot seviyesi anotasyonudur ve gelen HTTP isteği gövdesindeki verileri bir nesne olarak almak için kullanılır.

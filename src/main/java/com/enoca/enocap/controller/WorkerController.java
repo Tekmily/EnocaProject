@@ -38,6 +38,8 @@ public class WorkerController {
              * @PostMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP POST isteklerini işlemek için kullanılır.
              * createCompany methodu ile kullanıcıdan alınan verileri uygun biçinde veritabanında kaydetmek için kullanılır.
              */
+
+            //http://localhost:8082/company/create
     @PostMapping("/create")
     public ResponseEntity<EPResponse> createWorker(
             @Valid @RequestBody WorkerRequest workerRequest){
@@ -51,19 +53,23 @@ public class WorkerController {
                 ("Worker Successfully Created",true); // Response olarak geri Created ve Successfully bilgisaini oluşturur.
         return new ResponseEntity<>(epResponse, HttpStatus.CREATED);//kaydedildiğine dair epResponse taki bilgileri geri döndürür.
     }
+            //http://localhost:8082/company
     @GetMapping//@GetMapping, Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP GET isteklerini işlemek için kullanılır.
     //getAllWorkers method'u Veritabanında bulunan tüm bilgileri ekrana listeler
     public ResponseEntity<List<WorkerDTO>> getAllWorkers(){
         List<Worker> workerList=workerService.getAllWorkers();//Service'ten alına tüm listeyi workerList ekler
+
         List<WorkerDTO> workerDTOList=workerMapper.workerListToWorkerDTOListMap(workerList);//Worker object'in workerList tesindeki tüm verileri workerDTOList dönüştürür
         return ResponseEntity.ok(workerDTOList);//workerDTOList'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar
     }
+    //http://localhost:8082/company/3
    @GetMapping("/{id}")//getByIdWorker method'u istenilen ID deki verileri ekrana yazdırır
    public ResponseEntity<WorkerDTO> getByIdWorker(@PathVariable("id") Long id){
         Worker worker=workerService.getByIdWorker(id);//Service'ten ID ile istenilen verileri Worker object'e aktarır.
         WorkerDTO workerDTO=workerMapper.wokerToWorkerDTO(worker);//Worker object'teki verileri workerDTO object'e aktarır
         return ResponseEntity.ok(workerDTO);//workerDTO'in başarılı şekilde döndürüldüğüne dair bilgi iletir.Verileri Ekrana yazar.
    }
+   //http://localhost:8082/company/4
    @DeleteMapping("/{id}")//@DeleteMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP DELETE isteklerini işlemek için kullanılır.
    //deleteByIdWorker method'u istenilen ID ile silme işlemi yapar.
     public ResponseEntity<EPResponse> deleteByIdWorker(@PathVariable Long id) {//@PathVariable: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yolundaki değişkenleri bir değişkene atanmak için kullanılır.
@@ -71,6 +77,7 @@ public class WorkerController {
         EPResponse epResponse=new EPResponse(ResponseMessage.WORKER_DELETE_RESPONSE_MESSAGE,true);//Veri silme işlemi düzgün gerçekleşmiş ise başarılı bilgisini veriri şayet veritabanında olmayan ID ile işlem yapılıyor ise Exception fırları
         return ResponseEntity.ok(epResponse);//epResponse aldığı veriyi ekrana yazar.
    }
+   //http://localhost:8082/company/3
    @PutMapping("/{id}")//@PutMapping: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yoluna sahip HTTP PUT isteklerini işlemek için kullanılır.
    //@PathVariable: Spring MVC'de bir metot seviyesi anotasyonudur ve belirtilen URL yolundaki değişkenleri bir değişkene atanmak için kullanılır.
    //@RequestBody: Spring MVC'de bir metot seviyesi anotasyonudur ve gelen HTTP isteği gövdesindeki verileri bir nesne olarak almak için kullanılır.
