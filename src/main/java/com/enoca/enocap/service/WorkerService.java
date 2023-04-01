@@ -9,33 +9,38 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+/**
+ * @Service anotasyonu, bir sınıfın Spring Framework'teki Service katmanı bileşeni
+ * olarak kullanılabileceğini belirtir.
+ * @RequiredArgsConstructor anotasyonu, bir sınıfta tanımlanan final olmayan
+ * tüm alanların bağımlılıklarını otomatik olarak enjekte eden bir constructor oluşturur.
+ */
 @Service
 @RequiredArgsConstructor
 public class WorkerService {
-    private final WorkerRepository workerRepository;
+    private final WorkerRepository workerRepository;//workerRepository enjekte edildi.
 
 
-    public void save(Worker worker){
-        workerRepository.save(worker);
+    public void save(Worker worker){//SAVE company method
+        workerRepository.save(worker);//Company'yi companyRepository deki jpaRepository kullanılarak kayıt işlemi yaptık
     }
 
-    public List<Worker> getAllWorkers() {
+    public List<Worker> getAllWorkers() {//Worker verilerin hepsini çağırma işlemi yaaptık
         return workerRepository.findAll();
     }
-    public  Worker getByIdWorker(Long id) {
+    public  Worker getByIdWorker(Long id) {//Worker verileri ID'yle çağırma işlemi yaaptık
         return workerRepository.findById(id).orElseThrow(
-                ()-> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+                ()-> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));//ID'yle çağrılan verilerin içerisinde istenilen ID yok ise kontrollü Exceptin fırlatması yapar
     }
 
 
-    public void deleteByIdWorker(Long id) {
+    public void deleteByIdWorker(Long id) {//ID ile veritabanında silme işlemi yapar.
         Worker foundWorker =getByIdWorker(id);
         workerRepository.delete(foundWorker);
 
     }
 
-    public void updateByIdWorker(Long id, Worker worker) {
+    public void updateByIdWorker(Long id, Worker worker) {//ID numarası ile veritabanındaki bir veriyi Company çağrılarak bilgilerini güncelleme işlemi yapar
         Worker foundworker =getByIdWorker(id);
         foundworker.setWorkerFirstName(worker.getWorkerFirstName());
         foundworker.setWorkerLastName(worker.getWorkerLastName());
