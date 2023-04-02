@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EPResponse {//clinet ekranına dönecek mesajları dinamik şekilde kullanmamızı sağlar
+public class EPResponse {
     private String message;
     boolean success;
 }
