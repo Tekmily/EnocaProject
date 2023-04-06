@@ -63,12 +63,13 @@ public class WorkerController {
    }
    //http://localhost:8082/company/3
    @PutMapping("/{id}")
-    public ResponseEntity<EPResponse> updateByIdWorker(@PathVariable Long id,
-                                                       @RequestBody WorkerRequest workerRequest){
-        Worker worker=workerMapper.wokerRequsestToWorker(workerRequest);
-        workerService.updateByIdWorker(id,worker);
-        EPResponse epResponse=new EPResponse(ResponseMessage.WORKER_UPDATE_RESPONSE_MESSAGE,true);
-        return ResponseEntity.ok(epResponse);
+
+   public ResponseEntity<EPResponse> updateByIdWorker(@PathVariable Long id,
+                                                      @RequestBody WorkerRequest workerRequest){
+
+       workerService.updateByIdWorker(id,workerRequest);
+       EPResponse epResponse=new EPResponse(ResponseMessage.WORKER_UPDATE_RESPONSE_MESSAGE,true);
+       return ResponseEntity.ok(epResponse);
    }
 
 
